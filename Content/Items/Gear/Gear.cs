@@ -1,5 +1,6 @@
 ﻿using FunnyExperience.Content.Items.Gear.Affixes;
 using FunnyExperience.Content.Items.Gear.Armor;
+using FunnyExperience.Content.Items.Gear.Weapons;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Terraria.Graphics.Effects;
@@ -16,7 +17,7 @@ namespace FunnyExperience.Content.Items.Gear
 		public GearInfluence influence;
 
 		public string name;
-		public int power;
+		public int itemLevel;
 
 		public List<Affix> affixes = new();
 
@@ -134,7 +135,7 @@ namespace FunnyExperience.Content.Items.Gear
 			};
 			tooltips.Add(rareLine);
 
-			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{power}]")
+			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{itemLevel}]")
 			{
 				OverrideColor = new Color(170, 170, 170)
 			};
@@ -237,24 +238,24 @@ namespace FunnyExperience.Content.Items.Gear
 		}
 
 		/// <summary>
-		/// Rolls the randomized aspects of this piece of gear, for a given power
+		/// Rolls the randomized aspects of this piece of gear, for a given item level
 		/// </summary>
-		public void Roll(int power)
+		public void Roll(int itemLevel)
 		{
-			this.power = power;
+			this.itemLevel = itemLevel;
 
-			int rare = Main.rand.Next(100) - (int)(power / 10f);
+			int rare = Main.rand.Next(100) - (int)(itemLevel / 10f);
 			rarity = GearRarity.Normal;
 
-			if (rare < 25 + (int)(power / 10f))
+			if (rare < 25 + (int)(itemLevel / 10f))
 				rarity = GearRarity.Magic;
 			if (rare < 5)
 				rarity = GearRarity.Rare;
 
-			// Only power 50+ can get influence
-			if (power > 50)
+			// Only item level 50+ can get influence
+			if (itemLevel > 50)
 			{
-				int inf = Main.rand.Next(400) - power;
+				int inf = Main.rand.Next(400) - itemLevel;
 
 				if (inf < 30)
 					influence = Main.rand.NextBool() ? GearInfluence.Solar : GearInfluence.Lunar;
@@ -341,7 +342,7 @@ namespace FunnyExperience.Content.Items.Gear
 			tag["influence"] = (int)influence;
 
 			tag["name"] = name;
-			tag["power"] = power;
+			tag["power"] = itemLevel;
 
 			List<TagCompound> affixTags = new();
 			foreach (Affix affix in affixes)
@@ -361,7 +362,7 @@ namespace FunnyExperience.Content.Items.Gear
 			influence = (GearInfluence)tag.GetInt("influence");
 
 			name = tag.GetString("name");
-			power = tag.GetInt("power");
+			itemLevel = tag.GetInt("power");
 
 			IList<TagCompound> affixTags = tag.GetList<TagCompound>("affixes");
 
@@ -377,22 +378,23 @@ namespace FunnyExperience.Content.Items.Gear
 		/// Spawns a random piece of armor at the given position
 		/// </summary>
 		/// <param name="pos">Where to spawn the armor</param>
-		public static void SpawnArmor(Vector2 pos)
+		public static void SpawnItem(Vector2 pos)
 		{
-			int choice = Main.rand.Next(3);
+			int choice = Main.rand.Next(4);
 
 			switch (choice)
 			{
 				case 0:
 					SpawnGear<Helmet>(pos);
 					break;
-
 				case 1:
 					SpawnGear<Chestplate>(pos);
 					break;
-
 				case 2:
 					SpawnGear<Leggings>(pos);
+					break;
+				case 3:
+					SpawnGear<Sword>(pos);
 					break;
 			}
 		}
@@ -407,14 +409,14 @@ namespace FunnyExperience.Content.Items.Gear
 			var item = new Item();
 			item.SetDefaults(ModContent.ItemType<T>());
 			var gear = item.ModItem as T;
-			gear.Roll(PickPower());
+			gear.Roll(PickItemLevel());
 			Item.NewItem(null, pos, Vector2.Zero, item);
 		}
 
 		/// <summary>
-		/// Selects an appropriate random power for a piece of gear to drop at based on world state
+		/// Selects an appropriate item level for a piece of gear to drop at based on world state
 		/// </summary>
-		public static int PickPower()
+		private static int PickItemLevel()
 		{
 			if (NPC.downedMoonlord)
 				return Main.rand.Next(150, 201);
@@ -465,7 +467,7 @@ namespace FunnyExperience.Content.Items.Gear
 		{
 			string typeName = type switch
 			{
-				GearType.Sword => "Broadsword",
+				GearType.Sword => "Sword",
 				GearType.Spear => "Spear",
 				GearType.Bow => "Bow",
 				GearType.Gun => "Guns",

@@ -23,4 +23,9 @@ Items: {
 		DisplayName: Leggings
 		Tooltip: ""
 	}
+
+	Sword: {
+		DisplayName: Sword
+		Tooltip: ""
+	}
 }

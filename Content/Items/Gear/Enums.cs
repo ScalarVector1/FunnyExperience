@@ -1,7 +1,7 @@
 ﻿namespace FunnyExperience.Content.Items.Gear
 {
 	[Flags]
-	public enum GearType : int
+	public enum GearType
 	{
 		Sword,
 		Spear,
@@ -16,7 +16,7 @@
 		Charm
 	}
 
-	public enum GearRarity : int
+	public enum GearRarity
 	{
 		Normal,
 		Magic,
@@ -24,7 +24,7 @@
 		Unique
 	}
 
-	public enum GearInfluence : int
+	public enum GearInfluence
 	{
 		None,
 		Solar,

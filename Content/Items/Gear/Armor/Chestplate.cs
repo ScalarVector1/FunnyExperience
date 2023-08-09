@@ -14,7 +14,7 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 
 		public override void PostRoll()
 		{
-			Item.defense = power / 6 + 1;
+			Item.defense = itemLevel / 6 + 1;
 		}
 
 		public override string GenerateName()

@@ -4,79 +4,79 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 {
 	internal class ManaAffix : Affix
 	{
-		public ManaAffix() : base()
+		public ManaAffix()
 		{
 			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{5 + (int)(value * 20) + gear.power / 20} Maximum Mana";
+			return $"+{5 + (int)(value * 20) + gear.itemLevel / 20} Maximum Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.statManaMax2 += 5 + (int)(value * 20) + gear.power / 20;
+			player.statManaMax2 += 5 + (int)(value * 20) + gear.itemLevel / 20;
 		}
 	}
 
 	internal class ManaRegenAffix : Affix
 	{
-		public ManaRegenAffix() : base()
+		public ManaRegenAffix()
 		{
 			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{1 + (int)(value * 4) + gear.power / 40} Mana Regeneration";
+			return $"+{1 + (int)(value * 4) + gear.itemLevel / 40} Mana Regeneration";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.manaRegen += 1 + (int)(value * 4) + gear.power / 40;
+			player.manaRegen += 1 + (int)(value * 4) + gear.itemLevel / 40;
 		}
 	}
 
 	internal class ManaPotionPowerAffix : Affix
 	{
-		public ManaPotionPowerAffix() : base()
+		public ManaPotionPowerAffix()
 		{
 			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Mana potions restore {10 + (int)(value * 10) + gear.power / 20} more Mana";
+			return $"Mana potions restore {10 + (int)(value * 10) + gear.itemLevel / 20} more Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().manaPower += 10 + (int)(value * 10) + gear.power / 20;
+			player.GetModPlayer<PotionSystem>().manaPower += 10 + (int)(value * 10) + gear.itemLevel / 20;
 		}
 	}
 
 	internal class ManaPotionCapAffix : Affix
 	{
-		public ManaPotionCapAffix() : base()
+		public ManaPotionCapAffix()
 		{
 			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"You can hold {1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.power / 100} additional mana potions";
+			return $"You can hold {1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.itemLevel / 100} additional mana potions";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().maxMana += 1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.power / 100;
+			player.GetModPlayer<PotionSystem>().maxMana += 1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.itemLevel / 100;
 		}
 	}
 
 	internal class ManaPotionCooldownAffix : Affix
 	{
-		public ManaPotionCooldownAffix() : base()
+		public ManaPotionCooldownAffix()
 		{
 			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 			requiredInfluence = GearInfluence.Solar;
