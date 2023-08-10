@@ -45,7 +45,7 @@ namespace FunnyExperience.Content.Items.Gear.Weapons.Melee
 			};
 
 			string item = GetType().ToString();
-			return rarity switch
+			return Rarity switch
 			{
 				GearRarity.Normal => item,
 				GearRarity.Magic => $"{prefix} {item}",

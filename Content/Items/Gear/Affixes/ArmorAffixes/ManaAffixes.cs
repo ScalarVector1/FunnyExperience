@@ -6,17 +6,17 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 	{
 		public ManaAffix()
 		{
-			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
+			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{5 + (int)(value * 20) + gear.itemLevel / 20} Maximum Mana";
+			return $"+{5 + (int)(Value * 20) + gear.itemLevel / 20} Maximum Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.statManaMax2 += 5 + (int)(value * 20) + gear.itemLevel / 20;
+			player.statManaMax2 += 5 + (int)(Value * 20) + gear.itemLevel / 20;
 		}
 	}
 
@@ -24,17 +24,17 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 	{
 		public ManaRegenAffix()
 		{
-			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
+			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{1 + (int)(value * 4) + gear.itemLevel / 40} Mana Regeneration";
+			return $"+{1 + (int)(Value * 4) + gear.itemLevel / 40} Mana Regeneration";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.manaRegen += 1 + (int)(value * 4) + gear.itemLevel / 40;
+			player.manaRegen += 1 + (int)(Value * 4) + gear.itemLevel / 40;
 		}
 	}
 
@@ -42,17 +42,17 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 	{
 		public ManaPotionPowerAffix()
 		{
-			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
+			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Mana potions restore {10 + (int)(value * 10) + gear.itemLevel / 20} more Mana";
+			return $"Mana potions restore {10 + (int)(Value * 10) + gear.itemLevel / 20} more Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().manaPower += 10 + (int)(value * 10) + gear.itemLevel / 20;
+			player.GetModPlayer<PotionSystem>().ManaPower += 10 + (int)(Value * 10) + gear.itemLevel / 20;
 		}
 	}
 
@@ -60,17 +60,17 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 	{
 		public ManaPotionCapAffix()
 		{
-			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
+			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"You can hold {1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.itemLevel / 100} additional mana potions";
+			return $"You can hold {1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.itemLevel / 100} additional mana potions";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().maxMana += 1 + (int)Math.Round(value, MidpointRounding.ToEven) + gear.itemLevel / 100;
+			player.GetModPlayer<PotionSystem>().MaxMana += 1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.itemLevel / 100;
 		}
 	}
 
@@ -78,18 +78,18 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 	{
 		public ManaPotionCooldownAffix()
 		{
-			possibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
-			requiredInfluence = GearInfluence.Solar;
+			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
+			RequiredInfluence = GearInfluence.Solar;
 		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Mana potions are ready {0.5f + value * 0.5f} seconds sooner";
+			return $"Mana potions are ready {0.5f + Value * 0.5f} seconds sooner";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().manaDelay -= (int)(60 * (0.5f + value * 0.5f));
+			player.GetModPlayer<PotionSystem>().ManaDelay -= (int)(60 * (0.5f + Value * 0.5f));
 		}
 	}
 }
