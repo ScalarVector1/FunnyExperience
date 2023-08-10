@@ -49,7 +49,7 @@ namespace FunnyExperience.Core.Systems
 
 		private void DrawPreview(On_Main.orig_DrawInventory orig, Main self)
 		{
-			Vector2 pos = Main.LocalPlayer.Center - Main.screenPosition;
+			Vector2 pos = Main.LocalPlayer.Center + Vector2.UnitY * Main.LocalPlayer.gfxOffY - Main.screenPosition;
 			var source = new Rectangle((int)pos.X - 42, (int)pos.Y - 64, 84, 128);
 			Main.spriteBatch.Draw(Main.screenTarget, new Rectangle(Main.screenWidth - 186, 436, 84, 128), source, Color.White);
 
@@ -108,7 +108,7 @@ namespace FunnyExperience.Core.Systems
 					position.X -= (slot - 3) * 47;
 					position.Y = 578;
 
-					TriggerMouseInteractions(inv, slot, position, 11);
+					TriggerMouseInteractions(inv, slot, position, 10);
 				}
 
 				// Shift down the vanity slots
