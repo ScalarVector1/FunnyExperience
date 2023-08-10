@@ -8,10 +8,10 @@ namespace FunnyExperience.Content.GUI
 {
 	internal class NewHotbar : SmartUIState
 	{
-		public int animation;
+		private int _animation;
 
-		public float selectorX;
-		public float selectorTarget;
+		private float _selectorX;
+		private float _selectorTarget;
 
 		public override bool Visible => !Main.playerInventory;
 
@@ -31,25 +31,25 @@ namespace FunnyExperience.Content.GUI
 
 			if (Main.LocalPlayer.selectedItem == 0)
 			{
-				if (animation > 0)
-					animation--;
+				if (_animation > 0)
+					_animation--;
 
-				prog = 1 - Ease((20 - animation) / 20f);
+				prog = 1 - Ease((20 - _animation) / 20f);
 			}
 			else
 			{
-				if (animation < 20)
-					animation++;
+				if (_animation < 20)
+					_animation++;
 
-				prog = Ease(animation / 20f);
+				prog = Ease(_animation / 20f);
 			}
 
 			if (Main.LocalPlayer.selectedItem >= 2)
-				selectorTarget = 24 + 120 + 52 * (Main.LocalPlayer.selectedItem - 2);
+				_selectorTarget = 24 + 120 + 52 * (Main.LocalPlayer.selectedItem - 2);
 			else
-				selectorTarget = 98;
+				_selectorTarget = 98;
 
-			selectorX += (selectorTarget - selectorX) * 0.33f;
+			_selectorX += (_selectorTarget - _selectorX) * 0.33f;
 
 			DrawCombat(spriteBatch, -prog * 80, 1 - prog);
 			DrawBuilding(spriteBatch, 80 - prog * 80, prog);
@@ -57,7 +57,7 @@ namespace FunnyExperience.Content.GUI
 
 		public void DrawCombat(SpriteBatch spriteBatch, float off, float opacity)
 		{
-			Texture2D combat = ModContent.Request<Texture2D>("FunnyExperience/Assets/HotbarCombat").Value;
+			Texture2D combat = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/HotbarCombat").Value;
 			Main.inventoryScale = 36 / 52f * 52f / 36f * opacity;
 
 			Main.spriteBatch.Draw(combat, new Vector2(20, 20 + off), null, Color.White * opacity);
@@ -65,32 +65,32 @@ namespace FunnyExperience.Content.GUI
 
 			PotionSystem potionPlayer = Main.LocalPlayer.GetModPlayer<PotionSystem>();
 
-			Texture2D bottleTex = ModContent.Request<Texture2D>("FunnyExperience/Assets/EmptyPotion").Value;
+			Texture2D bottleTex = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/EmptyPotion").Value;
 			Texture2D lifeTexture = Terraria.GameContent.TextureAssets.Item[ItemID.LesserHealingPotion].Value;
 			Texture2D manaTexture = Terraria.GameContent.TextureAssets.Item[ItemID.LesserManaPotion].Value;
 
 			spriteBatch.Draw(bottleTex, new Vector2(471, 40 + off), Color.White * opacity);
 			spriteBatch.Draw(bottleTex, new Vector2(523, 40 + off), Color.White * opacity);
 
-			int lifeH = (int)(potionPlayer.healingLeft / (float)potionPlayer.maxHealing * lifeTexture.Height);
-			int manaH = (int)(potionPlayer.manaLeft / (float)potionPlayer.maxMana * lifeTexture.Height);
+			int lifeH = (int)(potionPlayer.HealingLeft / (float)potionPlayer.MaxHealing * lifeTexture.Height);
+			int manaH = (int)(potionPlayer.ManaLeft / (float)potionPlayer.MaxMana * lifeTexture.Height);
 
 			spriteBatch.Draw(lifeTexture, new Rectangle(471, (int)(40 + off) + lifeTexture.Height - lifeH, bottleTex.Width, lifeH), new Rectangle(0, lifeTexture.Height - lifeH, lifeTexture.Width, lifeH), Color.White * opacity);
 			spriteBatch.Draw(manaTexture, new Rectangle(523, (int)(40 + off) + manaTexture.Height - manaH, bottleTex.Width, manaH), new Rectangle(0, manaTexture.Height - manaH, manaTexture.Width, manaH), Color.White * opacity);
 
-			Utils.DrawBorderString(spriteBatch, $"{potionPlayer.healingLeft}/{potionPlayer.maxHealing}", new Vector2(480, 112 + off), (potionPlayer.healingLeft > 0 ? new Color(255, 200, 200) : Color.Gray) * opacity, 1f * opacity, 0.5f, 0.5f);
-			Utils.DrawBorderString(spriteBatch, $"{potionPlayer.manaLeft}/{potionPlayer.maxMana}", new Vector2(534, 112 + off), (potionPlayer.manaLeft > 0 ? new Color(200, 220, 255) : Color.Gray) * opacity, 1f * opacity, 0.5f, 0.5f);
+			Utils.DrawBorderString(spriteBatch, $"{potionPlayer.HealingLeft}/{potionPlayer.MaxHealing}", new Vector2(480, 112 + off), (potionPlayer.HealingLeft > 0 ? new Color(255, 200, 200) : Color.Gray) * opacity, 1f * opacity, 0.5f, 0.5f);
+			Utils.DrawBorderString(spriteBatch, $"{potionPlayer.ManaLeft}/{potionPlayer.MaxMana}", new Vector2(534, 112 + off), (potionPlayer.ManaLeft > 0 ? new Color(200, 220, 255) : Color.Gray) * opacity, 1f * opacity, 0.5f, 0.5f);
 
 			if (Main.LocalPlayer.HasBuff(BuffID.PotionSickness))
 			{
-				Texture2D glow = ModContent.Request<Texture2D>("FunnyExperience/Assets/GlowSoft").Value;
+				Texture2D glow = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/GlowSoft").Value;
 				spriteBatch.Draw(glow, new Vector2(480, 60 + off), null, Color.Black, 0, glow.Size() / 2f, 1, 0, 0);
 				Utils.DrawBorderString(spriteBatch, $"{Main.LocalPlayer.buffTime[Main.LocalPlayer.FindBuffIndex(BuffID.PotionSickness)] / 60 + 1}", new Vector2(480, 60 + off), Color.LightGray * opacity, 1f * opacity, 0.5f, 0.5f);
 			}
 
 			if (Main.LocalPlayer.HasBuff(BuffID.ManaSickness))
 			{
-				Texture2D glow = ModContent.Request<Texture2D>("FunnyExperience/Assets/GlowSoft").Value;
+				Texture2D glow = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/GlowSoft").Value;
 				spriteBatch.Draw(glow, new Vector2(534, 60 + off), null, Color.Black, 0, glow.Size() / 2f, 1, 0, 0);
 				Utils.DrawBorderString(spriteBatch, $"{Main.LocalPlayer.buffTime[Main.LocalPlayer.FindBuffIndex(BuffID.ManaSickness)] / 60 + 1}", new Vector2(534, 60 + off), Color.LightGray * opacity, 1f * opacity, 0.5f, 0.5f);
 			}
@@ -98,7 +98,7 @@ namespace FunnyExperience.Content.GUI
 
 		public void DrawBuilding(SpriteBatch spriteBatch, float off, float opacity)
 		{
-			Texture2D building = ModContent.Request<Texture2D>("FunnyExperience/Assets/HotbarBuilding").Value;
+			Texture2D building = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/HotbarBuilding").Value;
 			Main.inventoryScale = 36 / 52f * 52f / 36f * opacity;
 
 			Main.spriteBatch.Draw(building, new Vector2(20, 20 + off), null, Color.White * opacity);
@@ -109,8 +109,8 @@ namespace FunnyExperience.Content.GUI
 				ItemSlot.Draw(spriteBatch, ref Main.LocalPlayer.inventory[k], 21, new Vector2(24 + 124 + 52 * (k - 2), 30 + off));
 			}
 
-			Texture2D select = ModContent.Request<Texture2D>("FunnyExperience/Assets/HotbarSelector").Value;
-			Main.spriteBatch.Draw(select, new Vector2(selectorX, 21 + off), null, Color.White * opacity * (selectorTarget == 98 ? (selectorX - 98) / 30f : 1));
+			Texture2D select = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/HotbarSelector").Value;
+			Main.spriteBatch.Draw(select, new Vector2(_selectorX, 21 + off), null, Color.White * opacity * (_selectorTarget == 98 ? (_selectorX - 98) / 30f : 1));
 		}
 
 		public float Ease(float input)
@@ -123,7 +123,7 @@ namespace FunnyExperience.Content.GUI
 
 		public override void SafeClick(UIMouseEvent evt)
 		{
-			Texture2D bar = ModContent.Request<Texture2D>("FunnyExperience/Assets/BarEmpty").Value;
+			Texture2D bar = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/BarEmpty").Value;
 			var pos = new Vector2(Main.screenWidth / 2, 10);
 
 			var bounding = new Rectangle((int)(pos.X - bar.Width / 2f), (int)pos.Y, bar.Width, bar.Height);

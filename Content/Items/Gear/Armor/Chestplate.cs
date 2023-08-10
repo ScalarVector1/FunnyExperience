@@ -5,7 +5,7 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 	[AutoloadEquip(EquipType.Body)]
 	internal class Chestplate : Gear
 	{
-		public override string Texture => "Terraria/" + Terraria.GameContent.TextureAssets.Item[ItemID.IronChainmail].Name;
+		public override string Texture => $"{FunnyExperience.ModName}/Assets/Items/Gear/Armor/Body/Base";
 
 		public override void SetDefaults()
 		{
@@ -14,7 +14,7 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 
 		public override void PostRoll()
 		{
-			Item.defense = power / 6 + 1;
+			Item.defense = Power / 6 + 1;
 		}
 
 		public override string GenerateName()
@@ -47,20 +47,15 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 				2 => "Chestpiece",
 				_ => "Unknown"
 			};
-
-			if (rarity == GearRarity.Normal)
-				return item;
-
-			if (rarity == GearRarity.Magic)
-				return $"{prefix} {item}";
-
-			if (rarity == GearRarity.Rare)
-				return $"{prefix} {suffix} {item}";
-
-			if (rarity == GearRarity.Unique)
-				return Item.Name;
-
-			return "Unknown Item";
+      
+			return rarity switch
+			{
+				GearRarity.Normal => item,
+				GearRarity.Magic => $"{prefix} {item}",
+				GearRarity.Rare => $"{prefix} {suffix} {item}",
+				GearRarity.Unique => Item.Name,
+				_ => "Unknown Item"
+			};
 		}
 	}
 }
