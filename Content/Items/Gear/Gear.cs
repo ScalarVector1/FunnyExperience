@@ -1,6 +1,6 @@
 ﻿using FunnyExperience.Content.Items.Gear.Affixes;
 using FunnyExperience.Content.Items.Gear.Armor;
-using FunnyExperience.Content.Items.Gear.Weapons;
+using FunnyExperience.Content.Items.Gear.Weapons.Melee;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Terraria.Graphics.Effects;
@@ -26,7 +26,8 @@ namespace FunnyExperience.Content.Items.Gear
 			On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
 		}
 
-		private void DrawSpecial(On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+		private void DrawSpecial(On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb,
+			Item[] inv, int context, int slot, Vector2 position, Color color)
 		{
 			if (inv[slot].ModItem is Gear gear && context != 21)
 			{
@@ -39,7 +40,8 @@ namespace FunnyExperience.Content.Items.Gear
 					_ => "Normal"
 				};
 
-				Texture2D back = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Slots/{rareName}Back").Value;
+				Texture2D back = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Slots/{rareName}Back")
+					.Value;
 				Color backcolor = Color.White * 0.75f;
 
 				sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
@@ -76,16 +78,20 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["primaryScaling"].SetValue(new Vector3(1, 1.3f, 1));
 			effect.Parameters["secondary"].SetValue(new Vector3(0.85f, 0.6f, 0.35f) * 0.7f);
 
-			effect.Parameters["sampleTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
-			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
+			effect.Parameters["sampleTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
+			effect.Parameters["mapTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect,
+				Main.GameViewMatrix.TransformationMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default,
+				Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		/// <summary>
@@ -107,26 +113,27 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["primaryScaling"].SetValue(new Vector3(1, 1.1f, 1));
 			effect.Parameters["secondary"].SetValue(new Vector3(0.4f, 0.4f, 0.9f) * 0.7f);
 
-			effect.Parameters["sampleTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
-			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
+			effect.Parameters["sampleTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
+			effect.Parameters["mapTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect,
+				Main.GameViewMatrix.TransformationMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default,
+				Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			tooltips.Clear();
 
-			var nameLine = new TooltipLine(Mod, "Name", name)
-			{
-				OverrideColor = GetRarityColor(rarity)
-			};
+			var nameLine = new TooltipLine(Mod, "Name", name) { OverrideColor = GetRarityColor(rarity) };
 			tooltips.Add(nameLine);
 
 			var rareLine = new TooltipLine(Mod, "Rarity", GetDescriptor(type, rarity, influence))
@@ -143,25 +150,32 @@ namespace FunnyExperience.Content.Items.Gear
 
 			if (Item.damage > 0)
 			{
-				var damageLine = new TooltipLine(Mod, "Damage", $"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"[{Item.damage * 0.8f}-{Item.damage * 1.2f}] Damage ({Item.DamageType.DisplayName})", baseColor: "DDDDDD"));
+				var damageLine = new TooltipLine(Mod, "Damage",
+					$"[i:{ItemID.SilverBullet}] " + HighlightNumbers(
+						$"[{Item.damage * 0.8f}-{Item.damage * 1.2f}] Damage ({Item.DamageType.DisplayName})",
+						baseColor: "DDDDDD"));
 				tooltips.Add(damageLine);
 			}
 
 			if (Item.defense > 0)
 			{
-				var defenseLine = new TooltipLine(Mod, "Defense", $"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"+{Item.defense} Defense", baseColor: "DDDDDD"));
+				var defenseLine = new TooltipLine(Mod, "Defense",
+					$"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"+{Item.defense} Defense", baseColor: "DDDDDD"));
 				tooltips.Add(defenseLine);
 			}
 
 			foreach (Affix affix in affixes)
 			{
-				string text = $"[i:{ItemID.MusketBall}] " + HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}");
+				string text = $"[i:{ItemID.MusketBall}] " +
+				              HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}");
 
 				if (affix.requiredInfluence == GearInfluence.Solar)
-					text = $"[i:{ItemID.IchorBullet}] " + HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}", "FFEE99", "CCB077");
+					text = $"[i:{ItemID.IchorBullet}] " +
+					       HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}", "FFEE99", "CCB077");
 
 				if (affix.requiredInfluence == GearInfluence.Lunar)
-					text = $"[i:{ItemID.CrystalBullet}] " + HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}", "BBDDFF", "99AADD");
+					text = $"[i:{ItemID.CrystalBullet}] " +
+					       HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}", "BBDDFF", "99AADD");
 
 				var affixLine = new TooltipLine(Mod, $"Affix{affix.GetHashCode()}", text);
 				tooltips.Add(affixLine);
@@ -191,7 +205,8 @@ namespace FunnyExperience.Content.Items.Gear
 				return true;
 			}
 
-			if (line.Mod == Mod.Name && (line.Name.Contains("Affix") || line.Name == "Damage" || line.Name == "Defense"))
+			if (line.Mod == Mod.Name &&
+			    (line.Name.Contains("Affix") || line.Name == "Damage" || line.Name == "Defense"))
 			{
 				line.BaseScale = Vector2.One * 0.95f;
 
@@ -319,7 +334,6 @@ namespace FunnyExperience.Content.Items.Gear
 		/// </summary>
 		public virtual void PostRoll()
 		{
-
 		}
 
 		/// <summary>
@@ -380,7 +394,7 @@ namespace FunnyExperience.Content.Items.Gear
 		/// <param name="pos">Where to spawn the armor</param>
 		public static void SpawnItem(Vector2 pos)
 		{
-			int choice = Main.rand.Next(4);
+			int choice = Main.rand.Next(6);
 
 			switch (choice)
 			{
@@ -395,6 +409,12 @@ namespace FunnyExperience.Content.Items.Gear
 					break;
 				case 3:
 					SpawnGear<Sword>(pos);
+					break;
+				case 4:
+					SpawnGear<Katana>(pos);
+					break;
+				case 5:
+					SpawnGear<Broadsword>(pos);
 					break;
 			}
 		}
