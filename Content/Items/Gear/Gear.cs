@@ -79,12 +79,12 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>("FunnyExperience/Assets/Misc/SwirlNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.UIScaleMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.UIScaleMatrix);
 		}
 
 		/// <summary>
@@ -110,12 +110,12 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>("FunnyExperience/Assets/Misc/ShaderNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.UIScaleMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.UIScaleMatrix);
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
