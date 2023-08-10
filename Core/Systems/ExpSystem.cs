@@ -5,23 +5,21 @@ using Terraria.ModLoader.IO;
 
 namespace FunnyExperience.Core.Systems
 {
-	internal abstract class ExpSystem : ModPlayer
+	internal class ExpSystem : ModPlayer
 	{
 		public int Level;
-#pragma warning disable IDE1006 // Naming Styles
-		public int exp;
-#pragma warning restore IDE1006 // Naming Styles
+		public int Experience;
 
 		public int NextLevel => Level == 100 ? 1 : Level * 250 + (int)(80 * Math.Pow(2, 1 + Level * 0.2f));
 
 		public override void PreUpdate()
 		{
-			if (exp <= NextLevel || Level >= 100)
+			if (Experience <= NextLevel || Level >= 100)
 				return;
 			
 			SoundEngine.PlaySound(new SoundStyle($"{FunnyExperience.ModName}/Sounds/Tier5"));
 
-			exp -= NextLevel;
+			Experience -= NextLevel;
 			Level++;
 
 			Main.NewText($"You've reached level {Level}!", new Color(145, 255, 160));
@@ -33,13 +31,13 @@ namespace FunnyExperience.Core.Systems
 		public override void SaveData(TagCompound tag)
 		{
 			tag["level"] = Level;
-			tag["exp"] = exp;
+			tag["exp"] = Experience;
 		}
 
 		public override void LoadData(TagCompound tag)
 		{
 			Level = tag.GetInt("level");
-			exp = tag.GetInt("exp");
+			Experience = tag.GetInt("exp");
 		}
 	}
 
@@ -51,7 +49,7 @@ namespace FunnyExperience.Core.Systems
 
 			foreach (Player player in Main.player.Where(n => n.active && Vector2.DistanceSquared(n.Center, npc.Center) < Math.Pow(2000, 2)))
 			{
-				player.GetModPlayer<ExpSystem>().exp += amount;
+				player.GetModPlayer<ExpSystem>().Experience += amount;
 				CombatText.NewText(player.Hitbox, new Color(145, 255, 160), $"+{amount}");
 			}
 		}

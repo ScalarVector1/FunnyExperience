@@ -21,7 +21,7 @@ namespace FunnyExperience.Content.GUI
 			Core.Systems.ExpSystem mp = Main.LocalPlayer.GetModPlayer<Core.Systems.ExpSystem>();
 
 			var pos = new Vector2(Main.screenWidth / 2, 10);
-			var target = new Rectangle((int)(pos.X - bar.Width / 2) + 6, (int)pos.Y + 14, (int)(mp.exp / (float)mp.NextLevel * fill.Width), fill.Height);
+			var target = new Rectangle((int)(pos.X - bar.Width / 2) + 6, (int)pos.Y + 14, (int)(mp.Experience / (float)mp.NextLevel * fill.Width), fill.Height);
 			var source = new Rectangle(0, 0, target.Width, target.Height);
 
 			spriteBatch.Draw(bar, pos, null, Color.White, 0, new Vector2(bar.Width / 2f, 0), 1, 0, 0);
@@ -32,7 +32,7 @@ namespace FunnyExperience.Content.GUI
 			var bounding = new Rectangle((int)(pos.X - bar.Width / 2f), (int)pos.Y, bar.Width, bar.Height);
 
 			if (bounding.Contains(Main.MouseScreen.ToPoint()))
-				Utils.DrawBorderString(spriteBatch, $"Level {mp.Level}\nExperience: {mp.exp} / {mp.NextLevel} ({Math.Truncate(mp.exp / (float)mp.NextLevel * 10000) / 100f}%)\n\nClick to open skill tree", Main.MouseScreen + Vector2.One * 24, Main.MouseTextColorReal);
+				Utils.DrawBorderString(spriteBatch, $"Level {mp.Level}\nExperience: {mp.Experience} / {mp.NextLevel} ({Math.Truncate(mp.Experience / (float)mp.NextLevel * 10000) / 100f}%)\n\nClick to open skill tree", Main.MouseScreen + Vector2.One * 24, Main.MouseTextColorReal);
 		}
 
 		public override void SafeClick(UIMouseEvent evt)
