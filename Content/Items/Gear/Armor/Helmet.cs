@@ -9,7 +9,7 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 
 		public override void SetDefaults()
 		{
-			type = GearType.Helmet;
+			GearType = GearType.Helmet;
 		}
 
 		public override void PostRoll()

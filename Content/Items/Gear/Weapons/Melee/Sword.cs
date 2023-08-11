@@ -23,7 +23,7 @@ namespace FunnyExperience.Content.Items.Gear.Weapons.Melee
 			Item.UseSound = SoundID.Item1;
 			Item.shoot = ProjectileID.PurificationPowder;
 			Item.shootSpeed = 10f;
-			type = GearType.Sword;
+			GearType = GearType.Sword;
 		}
 
 		public override bool AltFunctionUse(Player player)

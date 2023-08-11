@@ -12,9 +12,7 @@ namespace FunnyExperience.Content.Items.Gear
 {
 	internal abstract class Gear : ModItem
 	{
-#pragma warning disable IDE1006 // Naming Styles
-		protected GearType type;
-#pragma warning restore IDE1006 // Naming Styles
+		protected GearType GearType;
 		protected GearRarity Rarity;
 		private GearInfluence _influence;
 
@@ -140,7 +138,7 @@ namespace FunnyExperience.Content.Items.Gear
 			};
 			tooltips.Add(nameLine);
 
-			var rareLine = new TooltipLine(Mod, "Rarity", GetDescriptor(type, Rarity, _influence))
+			var rareLine = new TooltipLine(Mod, "Rarity", GetDescriptor(GearType, Rarity, _influence))
 			{
 				OverrideColor = Color.Lerp(GetRarityColor(Rarity), Color.White, 0.5f)
 			};
@@ -292,7 +290,7 @@ namespace FunnyExperience.Content.Items.Gear
 			if (Rarity == GearRarity.Normal || Rarity == GearRarity.Unique)
 				return;
 
-			List<Affix> possible = AffixHandler.GetAffixes(type, _influence);
+			List<Affix> possible = AffixHandler.GetAffixes(GearType, _influence);
 
 			if (possible is null)
 				return;
@@ -355,7 +353,7 @@ namespace FunnyExperience.Content.Items.Gear
 
 		public override void SaveData(TagCompound tag)
 		{
-			tag["type"] = (int)type;
+			tag["type"] = (int)GearType;
 			tag["rarity"] = (int)Rarity;
 			tag["influence"] = (int)_influence;
       
@@ -375,7 +373,7 @@ namespace FunnyExperience.Content.Items.Gear
 
 		public override void LoadData(TagCompound tag)
 		{
-			type = (GearType)tag.GetInt("type");
+			GearType = (GearType)tag.GetInt("type");
 			Rarity = (GearRarity)tag.GetInt("rarity");
 			_influence = (GearInfluence)tag.GetInt("influence");
 
@@ -400,28 +398,27 @@ namespace FunnyExperience.Content.Items.Gear
 		{
 			int choice = Main.rand.Next(6);
 
-			// switch (choice)
-			// {
-			// 	case 0:
-			// 		SpawnGear<Helmet>(pos);
-			// 		break;
-			// 	case 1:
-			// 		SpawnGear<Chestplate>(pos);
-			// 		break;
-			// 	case 2:
-			// 		SpawnGear<Leggings>(pos);
-			// 		break;
-			// 	case 3:
-			// 		SpawnGear<Sword>(pos);
-			// 		break;
-			// 	case 4:
-			// 		SpawnGear<Katana>(pos);
-			// 		break;
-			// 	case 5:
-			// 		SpawnGear<Broadsword>(pos);
-			// 		break;
-			// }
-			SpawnGear<Sword>(pos);
+			switch (choice)
+			{
+				case 0:
+					SpawnGear<Helmet>(pos);
+					break;
+				case 1:
+					SpawnGear<Chestplate>(pos);
+					break;
+				case 2:
+					SpawnGear<Leggings>(pos);
+					break;
+				case 3:
+					SpawnGear<Sword>(pos);
+					break;
+				case 4:
+					SpawnGear<Katana>(pos);
+					break;
+				case 5:
+					SpawnGear<Broadsword>(pos);
+					break;
+			}
 		}
 
 		/// <summary>

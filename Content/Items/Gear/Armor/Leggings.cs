@@ -9,7 +9,7 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 
 		public override void SetDefaults()
 		{
-			type = GearType.Leggings;
+			GearType = GearType.Leggings;
 		}
 
 		public override void PostRoll()
