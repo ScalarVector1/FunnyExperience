@@ -11,12 +11,12 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{5 + (int)(Value * 20) + gear.itemLevel / 20} Maximum Mana";
+			return $"+{5 + (int)(Value * 20) + gear.ItemLevel / 20} Maximum Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.statManaMax2 += 5 + (int)(Value * 20) + gear.itemLevel / 20;
+			player.statManaMax2 += 5 + (int)(Value * 20) + gear.ItemLevel / 20;
 		}
 	}
 
@@ -29,12 +29,12 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{1 + (int)(Value * 4) + gear.itemLevel / 40} Mana Regeneration";
+			return $"+{1 + (int)(Value * 4) + gear.ItemLevel / 40} Mana Regeneration";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.manaRegen += 1 + (int)(Value * 4) + gear.itemLevel / 40;
+			player.manaRegen += 1 + (int)(Value * 4) + gear.ItemLevel / 40;
 		}
 	}
 
@@ -47,12 +47,12 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Mana potions restore {10 + (int)(Value * 10) + gear.itemLevel / 20} more Mana";
+			return $"Mana potions restore {10 + (int)(Value * 10) + gear.ItemLevel / 20} more Mana";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().ManaPower += 10 + (int)(Value * 10) + gear.itemLevel / 20;
+			player.GetModPlayer<PotionSystem>().ManaPower += 10 + (int)(Value * 10) + gear.ItemLevel / 20;
 		}
 	}
 
@@ -65,12 +65,12 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"You can hold {1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.itemLevel / 100} additional mana potions";
+			return $"You can hold {1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.ItemLevel / 100} additional mana potions";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
 		{
-			player.GetModPlayer<PotionSystem>().MaxMana += 1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.itemLevel / 100;
+			player.GetModPlayer<PotionSystem>().MaxMana += 1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.ItemLevel / 100;
 		}
 	}
 

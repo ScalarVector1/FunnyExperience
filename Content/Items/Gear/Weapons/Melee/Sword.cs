@@ -1,5 +1,4 @@
 ﻿using FunnyExperience.Core.Systems;
-using System.Linq;
 using Terraria.DataStructures;
 using Terraria.ID;
 
@@ -31,18 +30,19 @@ namespace FunnyExperience.Content.Items.Gear.Weapons.Melee
 			AltUseSystem modPlayer = player.GetModPlayer<AltUseSystem>();
 
 			// If cooldown is still active, do not allow alt usage.
-			if (modPlayer.altFunctionCooldown > 0 || !modPlayer.Player.CheckMana(5))
+			if (modPlayer.AltFunctionCooldown > 0 || !modPlayer.Player.CheckMana(5))
 				return false;
 
 			// Otherwise, set the cooldown and allow alt usage.
-			modPlayer.altFunctionCooldown = 180;
+			modPlayer.AltFunctionCooldown = 180;
 			return true;
 		}
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position,
 			Vector2 velocity, int type, int damage, float knockback)
 		{
-			if (player.altFunctionUse != 2) return false;
+			if (player.altFunctionUse != 2) 
+				return false;
 			
 			AltUseSystem modPlayer = player.GetModPlayer<AltUseSystem>();
 			modPlayer.Player.statMana -= 5;

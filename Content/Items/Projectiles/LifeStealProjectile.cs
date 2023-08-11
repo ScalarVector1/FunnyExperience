@@ -128,8 +128,6 @@ namespace FunnyExperience.Content.Items.Projectiles
 			// If sprite is vertical
 			// float offsetY = 20f;
 			// origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
-
-
 			// Applying lighting and draw current frame
 			Color drawColor = Projectile.GetAlpha(lightColor);
 			Main.EntitySpriteDraw(texture,

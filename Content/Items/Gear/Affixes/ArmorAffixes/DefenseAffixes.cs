@@ -11,12 +11,12 @@
 
 			public override string GetTooltip(Player player, Gear gear)
 			{
-				return $"+{1 + (int)(Value * 5) + gear.itemLevel / 50} Additional Defense";
+				return $"+{1 + (int)(Value * 5) + gear.ItemLevel / 50} Additional Defense";
 			}
 
 			public override void BuffPassive(Player player, Gear gear)
 			{
-				player.statDefense += 1 + (int)(Value * 5) + gear.itemLevel / 50;
+				player.statDefense += 1 + (int)(Value * 5) + gear.ItemLevel / 50;
 			}
 		}
 
@@ -29,12 +29,12 @@
 
 			public override string GetTooltip(Player player, Gear gear)
 			{
-				return $"+{(float)Math.Truncate((Value * 5 + gear.itemLevel / 50) * 10) / 10}% Damage Reduction";
+				return $"+{(float)Math.Truncate((Value * 5 + gear.ItemLevel / 50) * 10) / 10}% Damage Reduction";
 			}
 
 			public override void BuffPassive(Player player, Gear gear)
 			{
-				player.endurance += (float)Math.Truncate((Value * 5 + gear.itemLevel / 50) * 10) / 10 / 100f;
+				player.endurance += (float)Math.Truncate((Value * 5 + gear.ItemLevel / 50) * 10) / 10 / 100f;
 			}
 		}
 	}

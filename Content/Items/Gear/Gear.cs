@@ -18,8 +18,8 @@ namespace FunnyExperience.Content.Items.Gear
 		protected GearRarity Rarity;
 		private GearInfluence _influence;
 
-		public string _name;
-		public int itemLevel;
+		private string _name;
+		public int ItemLevel;
 
 		private List<Affix> _affixes = new();
 
@@ -146,7 +146,7 @@ namespace FunnyExperience.Content.Items.Gear
 			};
 			tooltips.Add(rareLine);
 
-			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{itemLevel}]")
+			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{ItemLevel}]")
 			{
 				OverrideColor = new Color(170, 170, 170)
 			};
@@ -259,7 +259,7 @@ namespace FunnyExperience.Content.Items.Gear
 		/// </summary>
 		public void Roll(int itemLevel)
 		{
-			this.itemLevel = itemLevel;
+			this.ItemLevel = itemLevel;
 
 			int rare = Main.rand.Next(100) - (int)(itemLevel / 10f);
 			Rarity = GearRarity.Normal;
@@ -358,7 +358,7 @@ namespace FunnyExperience.Content.Items.Gear
 			tag["influence"] = (int)_influence;
       
 			tag["name"] = _name;
-			tag["power"] = itemLevel;
+			tag["power"] = ItemLevel;
 
 			List<TagCompound> affixTags = new();
 			foreach (Affix affix in _affixes)
@@ -378,7 +378,7 @@ namespace FunnyExperience.Content.Items.Gear
 			_influence = (GearInfluence)tag.GetInt("influence");
 
 			_name = tag.GetString("name");
-			itemLevel = tag.GetInt("power");
+			ItemLevel = tag.GetInt("power");
 
 			IList<TagCompound> affixTags = tag.GetList<TagCompound>("affixes");
 
