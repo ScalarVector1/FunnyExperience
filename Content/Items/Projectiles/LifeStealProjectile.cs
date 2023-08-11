@@ -1,4 +1,6 @@
-﻿namespace FunnyExperience.Content.Items.Projectiles
+﻿using FunnyExperience.Core.Systems;
+
+namespace FunnyExperience.Content.Items.Projectiles
 {
 	public class LifeStealProjectile : ModProjectile
 	{
@@ -18,8 +20,7 @@
 			Projectile.friendly = true; // Can the projectile deal damage to enemies?
 			Projectile.DamageType = DamageClass.Melee; // Is the projectile shoot by a ranged weapon?
 			Projectile.ignoreWater = true; // Does the projectile's speed be influenced by water?
-			Projectile.tileCollide = false; // Can the projectile collide with tiles?
-			Projectile.penetrate = -1; // Look at comments ExamplePiercingProjectile
+			Projectile.tileCollide = true; // Can the projectile collide with tiles?
 
 			Projectile.alpha = 255; // How transparent to draw this projectile. 0 to 255. 255 is completely transparent.
 		}
@@ -121,7 +122,7 @@
 
 			// If image isn't centered or symmetrical you can specify origin of the sprite
 			// (0,0) for the upper-left corner
-			float offsetX = 20f;
+			const float offsetX = 20f;
 			origin.X = Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX;
 
 			// If sprite is vertical
@@ -137,6 +138,12 @@
 
 			// It's important to return false, otherwise we also draw the original texture.
 			return false;
+		}
+		
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+		{
+			Player player = Main.LocalPlayer;
+			player.Heal(15);
 		}
 	}
 }
