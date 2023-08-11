@@ -262,7 +262,7 @@ namespace FunnyExperience.Content.Items.Gear
 			this.ItemLevel = itemLevel;
 
 			int rare = Main.rand.Next(100) - (int)(itemLevel / 10f);
-			Rarity = GearRarity.Normal;
+			Rarity = GearRarity.Magic;
 
 			if (rare < 25 + (int)(itemLevel / 10f))
 				Rarity = GearRarity.Magic;
@@ -297,10 +297,12 @@ namespace FunnyExperience.Content.Items.Gear
 			if (possible is null)
 				return;
 
-			if (Rarity == GearRarity.Magic)
-				_affixes = GenerateAffixes(possible, 2);
-			else if (Rarity == GearRarity.Rare)
-				_affixes = GenerateAffixes(possible, Main.rand.Next(3, 5));
+			_affixes = Rarity switch
+			{
+				GearRarity.Magic => GenerateAffixes(possible, 2),
+				GearRarity.Rare => GenerateAffixes(possible, Main.rand.Next(3, 5)),
+				_ => _affixes
+			};
 		}
 
 		/// <summary>
@@ -398,27 +400,28 @@ namespace FunnyExperience.Content.Items.Gear
 		{
 			int choice = Main.rand.Next(6);
 
-			switch (choice)
-			{
-				case 0:
-					SpawnGear<Helmet>(pos);
-					break;
-				case 1:
-					SpawnGear<Chestplate>(pos);
-					break;
-				case 2:
-					SpawnGear<Leggings>(pos);
-					break;
-				case 3:
-					SpawnGear<Sword>(pos);
-					break;
-				case 4:
-					SpawnGear<Katana>(pos);
-					break;
-				case 5:
-					SpawnGear<Broadsword>(pos);
-					break;
-			}
+			// switch (choice)
+			// {
+			// 	case 0:
+			// 		SpawnGear<Helmet>(pos);
+			// 		break;
+			// 	case 1:
+			// 		SpawnGear<Chestplate>(pos);
+			// 		break;
+			// 	case 2:
+			// 		SpawnGear<Leggings>(pos);
+			// 		break;
+			// 	case 3:
+			// 		SpawnGear<Sword>(pos);
+			// 		break;
+			// 	case 4:
+			// 		SpawnGear<Katana>(pos);
+			// 		break;
+			// 	case 5:
+			// 		SpawnGear<Broadsword>(pos);
+			// 		break;
+			// }
+			SpawnGear<Sword>(pos);
 		}
 
 		/// <summary>

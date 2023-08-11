@@ -81,7 +81,7 @@ namespace FunnyExperience.Content.Items.Gear.Affixes
 		{
 			return _prototypes
 				.Where(proto => proto.RequiredInfluence == GearInfluence.None || proto.RequiredInfluence == influence)
-				.Where(proto => (proto.PossibleTypes & type) > 0)
+				.Where(proto => (type & proto.PossibleTypes) == type)
 				.ToList();
 		}
 
