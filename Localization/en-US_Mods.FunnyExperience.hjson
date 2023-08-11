@@ -39,3 +39,5 @@ Items: {
 		Tooltip: ""
 	}
 }
+
+Projectiles.LifeStealProjectile.DisplayName: Life Steal Projectile
