@@ -29,7 +29,9 @@ namespace FunnyExperience.Content.Items.Gear
 
 		private void DrawSpecial(On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
 		{
-			if (inv[slot].ModItem is Gear gear && context != 21)
+			bool vanity = inv == Main.LocalPlayer.armor && slot > 9 + Main.LocalPlayer.extraAccessorySlots;
+
+			if (inv[slot].ModItem is Gear gear && context != 21 && !vanity)
 			{
 				string rareName = gear.Rarity switch
 				{

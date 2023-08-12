@@ -12,6 +12,8 @@ namespace FunnyExperience.Core.Systems
 		/// </summary>
 		public static bool LockMouseInteractionSetting;
 
+		public int MapOffset => Main.mapStyle != 1 ? -256 : 0;
+
 		public override void Load()
 		{
 			On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += OffsetFirstTwo;
@@ -51,10 +53,10 @@ namespace FunnyExperience.Core.Systems
 		{
 			Vector2 pos = Main.LocalPlayer.Center + Vector2.UnitY * Main.LocalPlayer.gfxOffY - Main.screenPosition;
 			var source = new Rectangle((int)pos.X - 42, (int)pos.Y - 64, 84, 128);
-			Main.spriteBatch.Draw(Main.screenTarget, new Rectangle(Main.screenWidth - 186, 436, 84, 128), source, Color.White);
+			Main.spriteBatch.Draw(Main.screenTarget, new Rectangle(Main.screenWidth - 186, 436 + MapOffset, 84, 128), source, Color.White);
 
 			Texture2D tex = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/EquipFrame").Value;
-			Main.spriteBatch.Draw(tex, new Vector2(Main.screenWidth - 192, 424), Color.White);
+			Main.spriteBatch.Draw(tex, new Vector2(Main.screenWidth - 192, 424 + MapOffset), Color.White);
 
 			LockMouseInteractionSetting = true;
 
@@ -70,7 +72,7 @@ namespace FunnyExperience.Core.Systems
 			// Move the first 2 inventory slots next to the equipment area
 			if (Main.playerInventory && inv == Main.LocalPlayer.inventory && slot < 2)
 			{
-				position = new Vector2(Main.screenWidth - 240, 430 + slot * 47);
+				position = new Vector2(Main.screenWidth - 240, 430 + slot * 47 + MapOffset);
 				context = 21;
 
 				TriggerMouseInteractions(inv, slot, position);
@@ -106,7 +108,7 @@ namespace FunnyExperience.Core.Systems
 					}
 
 					position.X -= (slot - 3) * 47;
-					position.Y = 578;
+					position.Y = 578 + MapOffset;
 
 					TriggerMouseInteractions(inv, slot, position, 10);
 				}
@@ -114,8 +116,20 @@ namespace FunnyExperience.Core.Systems
 				// Shift down the vanity slots
 				if (slot > 9 + Main.LocalPlayer.extraAccessorySlots)
 				{
+					if (slot > 15 + Main.LocalPlayer.extraAccessorySlots)
+					{
+						LockMouseInteractionSetting = true;
+						return;
+					}
+
 					position.Y += 288;
 					position.X += 47;
+
+					if (slot > 12 + Main.LocalPlayer.extraAccessorySlots)
+					{
+						position.Y -= 146;
+						position.X -= 47;
+					}
 
 					TriggerMouseInteractions(inv, slot, position);
 				}
