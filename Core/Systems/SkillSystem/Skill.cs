@@ -2,7 +2,7 @@
 
 namespace FunnyExperience.Core.Systems.SkillSystem
 {
-	internal abstract class Skill
+	public abstract class Skill
 	{
 		public int Duration;
 		public int Timer;
