@@ -20,9 +20,9 @@
 				return $"+{GetModifierValue(gear)} Armor Penetration";
 			}
 		}
-		internal class KnockbackAffix : Affix
+		internal class AddedKnockbackAffix : Affix
 		{
-			public KnockbackAffix()
+			public AddedKnockbackAffix()
 			{
 				PossibleTypes = GearType.Sword;
 				ModifierType = ModifierType.Added;
@@ -35,7 +35,26 @@
 		
 			public override string GetTooltip(Player player, Gear gear)
 			{
-				return $"+{GetModifierValue(gear)} Additional Knockback";
+				return $"+{GetModifierValue(gear)} Added Knockback";
+			}
+		}
+		
+		internal class IncreasedKnockbackAffix : Affix
+		{
+			public IncreasedKnockbackAffix()
+			{
+				PossibleTypes = GearType.Sword;
+				ModifierType = ModifierType.Multiplier;
+			}
+
+			public override float GetModifierValue(Gear gear)
+			{
+				return 1 + (int)(Value * 5) + gear.ItemLevel / 50;
+			}
+		
+			public override string GetTooltip(Player player, Gear gear)
+			{
+				return $"{GetModifierValue(gear)}% Increased Knockback";
 			}
 		}
 	}

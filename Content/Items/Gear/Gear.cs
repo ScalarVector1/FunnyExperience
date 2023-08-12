@@ -244,7 +244,8 @@ namespace FunnyExperience.Content.Items.Gear
 				{
 					return $"[c/{numColor}:{match.Value}]";
 				}
-				else if (match.Groups[2].Success) // Non-numeric group
+				
+				if (match.Groups[2].Success) // Non-numeric group
 				{
 					return $"[c/{baseColor}:{match.Value}]";
 				}
@@ -260,10 +261,10 @@ namespace FunnyExperience.Content.Items.Gear
 		/// </summary>
 		public void Roll(int itemLevel)
 		{
-			this.ItemLevel = itemLevel;
+			ItemLevel = itemLevel;
 
 			int rare = Main.rand.Next(100) - (int)(itemLevel / 10f);
-			Rarity = GearRarity.Magic;
+			Rarity = GearRarity.Normal;
 
 			if (rare < 25 + (int)(itemLevel / 10f))
 				Rarity = GearRarity.Magic;
@@ -399,30 +400,29 @@ namespace FunnyExperience.Content.Items.Gear
 		/// <param name="pos">Where to spawn the armor</param>
 		public static void SpawnItem(Vector2 pos)
 		{
-			// int choice = Main.rand.Next(6);
-			//
-			// switch (choice)
-			// {
-			// 	case 0:
-			// 		SpawnGear<Helmet>(pos);
-			// 		break;
-			// 	case 1:
-			// 		SpawnGear<Chestplate>(pos);
-			// 		break;
-			// 	case 2:
-			// 		SpawnGear<Leggings>(pos);
-			// 		break;
-			// 	case 3:
-			// 		SpawnGear<Sword>(pos);
-			// 		break;
-			// 	case 4:
-			// 		SpawnGear<Katana>(pos);
-			// 		break;
-			// 	case 5:
-			// 		SpawnGear<Broadsword>(pos);
-			// 		break;
-			// }
-			SpawnGear<Katana>(pos);
+			int choice = Main.rand.Next(6);
+			
+			switch (choice)
+			{
+				case 0:
+					SpawnGear<Helmet>(pos);
+					break;
+				case 1:
+					SpawnGear<Chestplate>(pos);
+					break;
+				case 2:
+					SpawnGear<Leggings>(pos);
+					break;
+				case 3:
+					SpawnGear<Sword>(pos);
+					break;
+				case 4:
+					SpawnGear<Katana>(pos);
+					break;
+				case 5:
+					SpawnGear<Broadsword>(pos);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -536,8 +536,11 @@ namespace FunnyExperience.Content.Items.Gear
 			{
 				switch (affix.GetType().Name)
 				{
-					case "KnockbackAffix":
+					case "AddedKnockbackAffix":
 						modifiers.Knockback += affix.GetModifierValue(this); // 'this' refers to the current Gear instance
+						break;
+					case "IncreasedKnockbackAffix": // We want to have the added first, before the multiplier
+						modifiers.Knockback *= affix.GetModifierValue(this);
 						break;
 					case "PiercingAffix":
 						modifiers.ArmorPenetration += affix.GetModifierValue(this);
