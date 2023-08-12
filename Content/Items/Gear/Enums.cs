@@ -31,4 +31,11 @@
 		Solar,
 		Lunar
 	}
+
+	public enum ModifierType
+	{
+		Passive,
+		Added,
+		Multiplier
+	}
 }

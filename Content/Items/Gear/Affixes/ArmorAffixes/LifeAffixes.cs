@@ -8,10 +8,15 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 		{
 			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
+		
+		public override float GetModifierValue(Gear gear)
+		{
+			return 10 + (int)(Value * 30) + gear.ItemLevel / 100;
+		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{10 + (int)(Value * 30) + gear.ItemLevel / 10} Maximum Life";
+			return $"+{GetModifierValue(gear)} Maximum Life";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
@@ -27,9 +32,14 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
 
+		public override float GetModifierValue(Gear gear)
+		{
+			return 1 + (int)(Value * 4) + gear.ItemLevel / 40;
+		}
+
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"+{1 + (int)(Value * 4) + gear.ItemLevel / 40} Life Regeneration";
+			return $"+{GetModifierValue(gear)} Life Regeneration";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
@@ -44,10 +54,15 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 		{
 			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
+		
+		public override float GetModifierValue(Gear gear)
+		{
+			return 10 + (int)(Value * 10) + gear.ItemLevel / 20;
+		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Healing potions restore {10 + (int)(Value * 10) + gear.ItemLevel / 20} more life";
+			return $"Healing potions restore {GetModifierValue(gear)} more life";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
@@ -62,10 +77,15 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 		{
 			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 		}
+		
+		public override float GetModifierValue(Gear gear)
+		{
+			return 1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.ItemLevel / 100;
+		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"You can hold {1 + (int)Math.Round(Value, MidpointRounding.ToEven) + gear.ItemLevel / 100} additional healing potions";
+			return $"You can hold {GetModifierValue(gear)} additional healing potions";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)
@@ -81,10 +101,15 @@ namespace FunnyExperience.Content.Items.Gear.Affixes.ArmorAffixes
 			PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 			RequiredInfluence = GearInfluence.Lunar;
 		}
+		
+		public override float GetModifierValue(Gear gear)
+		{
+			return 0.5f + Value * 0.5f;
+		}
 
 		public override string GetTooltip(Player player, Gear gear)
 		{
-			return $"Healing potions are ready {0.5f + Value * 0.5f} seconds sooner";
+			return $"Healing potions are ready {GetModifierValue(gear)} seconds sooner";
 		}
 
 		public override void BuffPassive(Player player, Gear gear)

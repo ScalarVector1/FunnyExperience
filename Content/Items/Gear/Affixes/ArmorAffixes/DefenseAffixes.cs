@@ -9,9 +9,14 @@
 				PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 			}
 
+			public override float GetModifierValue(Gear gear)
+			{
+				return 1 + (int)(Value * 5) + gear.ItemLevel / 50;
+			}
+
 			public override string GetTooltip(Player player, Gear gear)
 			{
-				return $"+{1 + (int)(Value * 5) + gear.ItemLevel / 50} Additional Defense";
+				return $"+{GetModifierValue(gear)} Additional Defense";
 			}
 
 			public override void BuffPassive(Player player, Gear gear)
@@ -27,9 +32,14 @@
 				PossibleTypes = GearType.Helmet | GearType.Chestplate | GearType.Leggings;
 			}
 
+			public override float GetModifierValue(Gear gear)
+			{
+				return 1 + (float)Math.Truncate((Value * 5 + gear.ItemLevel / 50) * 10)  / 10;
+			}
+			
 			public override string GetTooltip(Player player, Gear gear)
 			{
-				return $"+{(float)Math.Truncate((Value * 5 + gear.ItemLevel / 50) * 10) / 10}% Damage Reduction";
+				return $"+{GetModifierValue(gear)}% Damage Reduction";
 			}
 
 			public override void BuffPassive(Player player, Gear gear)

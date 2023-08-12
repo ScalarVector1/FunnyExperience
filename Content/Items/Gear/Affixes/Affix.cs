@@ -9,6 +9,7 @@ namespace FunnyExperience.Content.Items.Gear.Affixes
 		private float _minValue;
 		private float _maxValue = 1;
 		protected float Value = 1;
+		public ModifierType ModifierType = ModifierType.Passive;
 
 		public GearInfluence RequiredInfluence = GearInfluence.None;
 
@@ -17,6 +18,8 @@ namespace FunnyExperience.Content.Items.Gear.Affixes
 		public virtual void BuffPassive(Player player, Gear gear) { }
 
 		public abstract string GetTooltip(Player player, Gear gear);
+		
+		public abstract float GetModifierValue(Gear gear);
 
 		public Affix Clone()
 		{

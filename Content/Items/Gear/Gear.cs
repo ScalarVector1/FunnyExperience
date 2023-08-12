@@ -1,7 +1,10 @@
 ﻿using FunnyExperience.Content.Items.Gear.Affixes;
+using FunnyExperience.Content.Items.Gear.Affixes.WeaponAffixes;
 using FunnyExperience.Content.Items.Gear.Armor;
 using FunnyExperience.Content.Items.Gear.Weapons.Melee;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -396,29 +399,30 @@ namespace FunnyExperience.Content.Items.Gear
 		/// <param name="pos">Where to spawn the armor</param>
 		public static void SpawnItem(Vector2 pos)
 		{
-			int choice = Main.rand.Next(6);
-
-			switch (choice)
-			{
-				case 0:
-					SpawnGear<Helmet>(pos);
-					break;
-				case 1:
-					SpawnGear<Chestplate>(pos);
-					break;
-				case 2:
-					SpawnGear<Leggings>(pos);
-					break;
-				case 3:
-					SpawnGear<Sword>(pos);
-					break;
-				case 4:
-					SpawnGear<Katana>(pos);
-					break;
-				case 5:
-					SpawnGear<Broadsword>(pos);
-					break;
-			}
+			// int choice = Main.rand.Next(6);
+			//
+			// switch (choice)
+			// {
+			// 	case 0:
+			// 		SpawnGear<Helmet>(pos);
+			// 		break;
+			// 	case 1:
+			// 		SpawnGear<Chestplate>(pos);
+			// 		break;
+			// 	case 2:
+			// 		SpawnGear<Leggings>(pos);
+			// 		break;
+			// 	case 3:
+			// 		SpawnGear<Sword>(pos);
+			// 		break;
+			// 	case 4:
+			// 		SpawnGear<Katana>(pos);
+			// 		break;
+			// 	case 5:
+			// 		SpawnGear<Broadsword>(pos);
+			// 		break;
+			// }
+			SpawnGear<Katana>(pos);
 		}
 
 		/// <summary>
@@ -521,6 +525,25 @@ namespace FunnyExperience.Content.Items.Gear
 			};
 
 			return $" {influenceName}{rareName}{typeName}";
+		}
+		
+		public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+		{
+			if (!_affixes.Any()) //We don't want to run if there are no affixes to modify anything
+				return;
+			
+			foreach (Affix affix in _affixes)
+			{
+				switch (affix.GetType().Name)
+				{
+					case "KnockbackAffix":
+						modifiers.Knockback += affix.GetModifierValue(this); // 'this' refers to the current Gear instance
+						break;
+					case "PiercingAffix":
+						modifiers.ArmorPenetration += affix.GetModifierValue(this);
+						break;
+				}
+			}
 		}
 	}
 }
