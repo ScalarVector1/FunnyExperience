@@ -1,11 +1,13 @@
-﻿using FunnyExperience.Core.Systems.TreeSystem;
+﻿using FunnyExperience.Content.Items.Gear;
+using FunnyExperience.Core.Systems.MobSystem;
+using FunnyExperience.Core.Systems.TreeSystem;
 using System.Linq;
 using Terraria.Audio;
 using Terraria.ModLoader.IO;
 
 namespace FunnyExperience.Core.Systems
 {
-	internal abstract class ExpSystem : ModPlayer
+	internal class ExpSystem : ModPlayer
 	{
 		public int Level;
 #pragma warning disable IDE1006 // Naming Styles
@@ -48,6 +50,16 @@ namespace FunnyExperience.Core.Systems
 		public override void OnKill(NPC npc)
 		{
 			int amount = (int)Math.Max(1, npc.lifeMax * 0.25f);
+			MobRaritySpawnSystem npcSystem = npc.GetGlobalNPC<MobRaritySpawnSystem>();
+			switch (npcSystem.Rarity) //We will need to evaluate this as magic/rare natively get more HP. So we do even want this? Was just POC, maybe just change amount evaluation?
+			{
+				case MobRarity.Rare:
+					amount = Convert.ToInt32(amount * 1.1); //Rare mobs give 10% increase xp
+					break;
+				case MobRarity.Magic:
+					amount = Convert.ToInt32(amount * 1.05); //Magic  mobs give 5% increase xp
+					break;
+			}
 
 			foreach (Player player in Main.player.Where(n => n.active && Vector2.DistanceSquared(n.Center, npc.Center) < Math.Pow(2000, 2)))
 			{
