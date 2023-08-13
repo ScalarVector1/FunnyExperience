@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "prefix": null,
+      "weight": 1.0,
+      "stats": {
+        "mod": {
+          "healthModifier": {
+            "add": 0.0,
+            "mult": 1.0,
+            "flat": 0.0
+          },
+          "scaleModifier": {
+            "add": 0.0,
+            "mult": 1.0,
+            "flat": 0.0
+          }
+        }
+      },
+      "requirements": "DD2ArmyTier3"
+    }
+  ],
+  "defaults": null
+}

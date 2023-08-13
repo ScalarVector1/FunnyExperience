@@ -1,0 +1,41 @@
+{
+    "prefix": null,
+    "weight": 5.0,
+    "stats": {
+        "level": 2,
+        "xp": 4,
+        "mod": {
+            "hp": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            },
+            "defense": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            },
+            "endure": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            },
+            "scale": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            },
+            "value": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            },
+            "kb": {
+                "add": 0,
+                "mult": 1,
+                "flat": 0
+            }
+        }
+    },
+    "requirements": "PreHardmodeSurface"
+}

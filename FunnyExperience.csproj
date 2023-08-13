@@ -16,4 +16,8 @@
   <ItemGroup>
     <Folder Include="Assets\Gear\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Core\Utility\Extensions\ExtensionMethods.Type.cs" />
+    <Compile Remove="Core\Edits\EditsLoader.cs" />
+  </ItemGroup>
 </Project>
