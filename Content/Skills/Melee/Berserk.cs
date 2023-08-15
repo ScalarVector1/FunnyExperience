@@ -8,17 +8,21 @@ namespace FunnyExperience.Content.Skills.Melee
 	{
 		public Berserk(int duration, int timer, int maxCooldown, int cooldown, int manaCost, GearType weaponType) : base(duration, timer, maxCooldown, cooldown, manaCost, weaponType)
 		{
-			Timer = 1200;
+			Duration = duration;
+			Cooldown = cooldown;
+			MaxCooldown = maxCooldown;
+			Cooldown = cooldown;
+			ManaCost = manaCost;
 		}
 
 		public override void UseSkill(Player player)
 		{
-			if (player.statMana < 5) 
+			if (!CanUseSkill(player)) 
 				return;
 			
-			player.statMana -= 5;
-			player.AddBuff(ModContent.BuffType<CustomRage>(), Timer);
-			throw new NotImplementedException();
+			player.statMana -= ManaCost;
+			player.AddBuff(ModContent.BuffType<CustomRage>(), Duration);
+			Timer = Cooldown;
 		}
 
 		public override string GetDescription(Player player)

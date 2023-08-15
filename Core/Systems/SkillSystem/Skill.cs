@@ -8,9 +8,9 @@ namespace FunnyExperience.Core.Systems.SkillSystem
 		public int Timer;
 
 		public int MaxCooldown;
-		private readonly int _cooldown;
+		public int Cooldown;
 
-		private readonly int _manaCost;
+		public int ManaCost;
 
 		public GearType WeaponType;
 
@@ -19,8 +19,8 @@ namespace FunnyExperience.Core.Systems.SkillSystem
 			Duration = duration;
 			Timer = timer;
 			MaxCooldown = maxCooldown;
-			_cooldown = cooldown;
-			_manaCost = manaCost;
+			Cooldown = cooldown;
+			ManaCost = manaCost;
 			WeaponType = weaponType;
 		}
 
@@ -47,7 +47,7 @@ namespace FunnyExperience.Core.Systems.SkillSystem
 		/// <returns>If the skill can be used or not</returns>
 		public virtual bool CanUseSkill(Player player)
 		{
-			return _cooldown <= 0 && player.CheckMana(_manaCost);
+			return Timer <= 0 && player.CheckMana(ManaCost);
 		}
 	}
 }

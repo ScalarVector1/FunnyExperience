@@ -1,4 +1,5 @@
-﻿using FunnyExperience.Core.Systems.SkillSystem;
+﻿using FunnyExperience.Core;
+using FunnyExperience.Core.Systems.SkillSystem;
 
 namespace FunnyExperience.Content.Buffs
 {
@@ -10,13 +11,12 @@ namespace FunnyExperience.Content.Buffs
 
 		public override void Load()
 		{
-			SkillPlayer.OnHitByNPCEvent += TakeMoreDamage;
+			FunnyExperienceNpcEvents.ModifyHitPlayerEvent += TakeMoreDamage;
 		}
 
-		private void TakeMoreDamage(Player player, NPC npc, Player.HurtInfo hurtInfo)
+		private void TakeMoreDamage(NPC npc, Player target, ref Player.HurtModifiers modifiers)
 		{
-			if (player.HasBuff<CustomRage>())
-				player.statLife -= 5; //Take 5 extra damage when hit
+			modifiers.FinalDamage += 5;
 		}
 
 		public override void Update(Player Player, ref int buffIndex)
