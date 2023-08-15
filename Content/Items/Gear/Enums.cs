@@ -1,22 +1,23 @@
 ﻿namespace FunnyExperience.Content.Items.Gear
 {
 	[Flags]
-	public enum GearType : int
+	public enum GearType : long
 	{
-		Sword,
-		Spear,
-		Bow,
-		Gun,
-		Staff,
-		Tome,
-		Helmet,
-		Chestplate,
-		Leggings,
-		Ring,
-		Charm
+		None = 0,
+		Sword = 1 << 0,
+		Spear = 1 << 1,
+		Bow = 1 << 2, 
+		Gun = 1 << 3, 
+		Staff = 1 << 4,
+		Tome = 1 << 5, 
+		Helmet = 1 << 6, 
+		Chestplate = 1 << 7,
+		Leggings = 1 << 8,
+		Ring = 1 << 9,
+		Charm = 1 << 10
 	}
 
-	public enum GearRarity : int
+	public enum GearRarity
 	{
 		Normal,
 		Magic,
@@ -24,10 +25,17 @@
 		Unique
 	}
 
-	public enum GearInfluence : int
+	public enum GearInfluence
 	{
 		None,
 		Solar,
 		Lunar
+	}
+
+	public enum ModifierType
+	{
+		Passive,
+		Added,
+		Multiplier
 	}
 }

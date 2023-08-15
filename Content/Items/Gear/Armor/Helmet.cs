@@ -9,12 +9,12 @@ namespace FunnyExperience.Content.Items.Gear.Armor
 
 		public override void SetDefaults()
 		{
-			type = GearType.Helmet;
+			GearType = GearType.Helmet;
 		}
 
 		public override void PostRoll()
 		{
-			Item.defense = Power / 10 + 1;
+			Item.defense = ItemLevel / 10 + 1;
 		}
 
 		public override string GenerateName()

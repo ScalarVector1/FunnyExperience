@@ -1,6 +1,10 @@
 ﻿using FunnyExperience.Content.Items.Gear.Affixes;
+using FunnyExperience.Content.Items.Gear.Affixes.WeaponAffixes;
 using FunnyExperience.Content.Items.Gear.Armor;
+using FunnyExperience.Content.Items.Gear.Weapons.Melee;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -11,14 +15,12 @@ namespace FunnyExperience.Content.Items.Gear
 {
 	internal abstract class Gear : ModItem
 	{
-#pragma warning disable IDE1006 // Naming Styles
-		protected GearType type;
-#pragma warning restore IDE1006 // Naming Styles
+		protected GearType GearType;
 		protected GearRarity Rarity;
 		private GearInfluence _influence;
 
 		private string _name;
-		public int Power;
+		public int ItemLevel;
 
 		private List<Affix> _affixes = new();
 
@@ -27,7 +29,8 @@ namespace FunnyExperience.Content.Items.Gear
 			On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
 		}
 
-		private void DrawSpecial(On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+		private void DrawSpecial(On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb,
+			Item[] inv, int context, int slot, Vector2 position, Color color)
 		{
 			if (inv[slot].ModItem is Gear gear && context != 21)
 			{
@@ -40,7 +43,8 @@ namespace FunnyExperience.Content.Items.Gear
 					_ => "Normal"
 				};
 
-				Texture2D back = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Slots/{rareName}Back").Value;
+				Texture2D back = ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Slots/{rareName}Back")
+					.Value;
 				Color backcolor = Color.White * 0.75f;
 
 				sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
@@ -77,16 +81,20 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["primaryScaling"].SetValue(new Vector3(1, 1.3f, 1));
 			effect.Parameters["secondary"].SetValue(new Vector3(0.85f, 0.6f, 0.35f) * 0.7f);
 
-			effect.Parameters["sampleTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
-			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
+			effect.Parameters["sampleTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
+			effect.Parameters["mapTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/SwirlNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect,
+				Main.GameViewMatrix.TransformationMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default,
+				Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		/// <summary>
@@ -108,35 +116,38 @@ namespace FunnyExperience.Content.Items.Gear
 			effect.Parameters["primaryScaling"].SetValue(new Vector3(1, 1.1f, 1));
 			effect.Parameters["secondary"].SetValue(new Vector3(0.4f, 0.4f, 0.9f) * 0.7f);
 
-			effect.Parameters["sampleTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
-			effect.Parameters["mapTexture"].SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
+			effect.Parameters["sampleTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
+			effect.Parameters["mapTexture"]
+				.SetValue(ModContent.Request<Texture2D>($"{FunnyExperience.ModName}/Assets/Misc/ShaderNoise").Value);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, effect,
+				Main.GameViewMatrix.TransformationMatrix);
 
 			spriteBatch.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, Main.inventoryScale, 0, 0);
 
 			spriteBatch.End();
-			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.Begin(default, default, default, default, RasterizerState.CullNone, default,
+				Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			tooltips.Clear();
-
 			var nameLine = new TooltipLine(Mod, "Name", _name)
 			{
 				OverrideColor = GetRarityColor(Rarity)
 			};
 			tooltips.Add(nameLine);
 
-			var rareLine = new TooltipLine(Mod, "Rarity", GetDescriptor(type, Rarity, _influence))
+			var rareLine = new TooltipLine(Mod, "Rarity", GetDescriptor(GearType, Rarity, _influence))
 			{
 				OverrideColor = Color.Lerp(GetRarityColor(Rarity), Color.White, 0.5f)
 			};
 			tooltips.Add(rareLine);
 
-			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{Power}]")
+			var powerLine = new TooltipLine(Mod, "Power", $" Item level: [c/CCCCFF:{ItemLevel}]")
 			{
 				OverrideColor = new Color(170, 170, 170)
 			};
@@ -144,19 +155,24 @@ namespace FunnyExperience.Content.Items.Gear
 
 			if (Item.damage > 0)
 			{
-				var damageLine = new TooltipLine(Mod, "Damage", $"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"[{Item.damage * 0.8f}-{Item.damage * 1.2f}] Damage ({Item.DamageType.DisplayName})", baseColor: "DDDDDD"));
+				var damageLine = new TooltipLine(Mod, "Damage",
+					$"[i:{ItemID.SilverBullet}] " + HighlightNumbers(
+						$"[{Item.damage * 0.8f}-{Item.damage * 1.2f}] Damage ({Item.DamageType.DisplayName})",
+						baseColor: "DDDDDD"));
 				tooltips.Add(damageLine);
 			}
 
 			if (Item.defense > 0)
 			{
-				var defenseLine = new TooltipLine(Mod, "Defense", $"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"+{Item.defense} Defense", baseColor: "DDDDDD"));
+				var defenseLine = new TooltipLine(Mod, "Defense",
+					$"[i:{ItemID.SilverBullet}] " + HighlightNumbers($"+{Item.defense} Defense", baseColor: "DDDDDD"));
 				tooltips.Add(defenseLine);
 			}
 
 			foreach (Affix affix in _affixes)
 			{
-				string text = $"[i:{ItemID.MusketBall}] " + HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}");
+				string text = $"[i:{ItemID.MusketBall}] " +
+				              HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}");
 
 				if (affix.RequiredInfluence == GearInfluence.Solar)
 					text = $"[i:{ItemID.IchorBullet}] " + HighlightNumbers($"{affix.GetTooltip(Main.LocalPlayer, this)}", "FFEE99", "CCB077");
@@ -192,7 +208,8 @@ namespace FunnyExperience.Content.Items.Gear
 				return true;
 			}
 
-			if (line.Mod == Mod.Name && (line.Name.Contains("Affix") || line.Name == "Damage" || line.Name == "Defense"))
+			if (line.Mod == Mod.Name &&
+			    (line.Name.Contains("Affix") || line.Name == "Damage" || line.Name == "Defense"))
 			{
 				line.BaseScale = Vector2.One * 0.95f;
 
@@ -227,7 +244,8 @@ namespace FunnyExperience.Content.Items.Gear
 				{
 					return $"[c/{numColor}:{match.Value}]";
 				}
-				else if (match.Groups[2].Success) // Non-numeric group
+				
+				if (match.Groups[2].Success) // Non-numeric group
 				{
 					return $"[c/{baseColor}:{match.Value}]";
 				}
@@ -239,24 +257,24 @@ namespace FunnyExperience.Content.Items.Gear
 		}
 
 		/// <summary>
-		/// Rolls the randomized aspects of this piece of gear, for a given power
+		/// Rolls the randomized aspects of this piece of gear, for a given item level
 		/// </summary>
-		public void Roll(int power)
+		public void Roll(int itemLevel)
 		{
-			this.Power = power;
+			ItemLevel = itemLevel;
 
-			int rare = Main.rand.Next(100) - (int)(power / 10f);
+			int rare = Main.rand.Next(100) - (int)(itemLevel / 10f);
 			Rarity = GearRarity.Normal;
 
-			if (rare < 25 + (int)(power / 10f))
+			if (rare < 25 + (int)(itemLevel / 10f))
 				Rarity = GearRarity.Magic;
 			if (rare < 5)
 				Rarity = GearRarity.Rare;
 
-			// Only power 50+ can get influence
-			if (power > 50)
+			// Only item level 50+ can get influence
+			if (itemLevel > 50)
 			{
-				int inf = Main.rand.Next(400) - power;
+				int inf = Main.rand.Next(400) - itemLevel;
 
 				if (inf < 30)
 					_influence = Main.rand.NextBool() ? GearInfluence.Solar : GearInfluence.Lunar;
@@ -276,15 +294,17 @@ namespace FunnyExperience.Content.Items.Gear
 			if (Rarity == GearRarity.Normal || Rarity == GearRarity.Unique)
 				return;
 
-			List<Affix> possible = AffixHandler.GetAffixes(type, _influence);
+			List<Affix> possible = AffixHandler.GetAffixes(GearType, _influence);
 
 			if (possible is null)
 				return;
 
-			if (Rarity == GearRarity.Magic)
-				_affixes = GenerateAffixes(possible, 2);
-			else if (Rarity == GearRarity.Rare)
-				_affixes = GenerateAffixes(possible, Main.rand.Next(3, 5));
+			_affixes = Rarity switch
+			{
+				GearRarity.Magic => GenerateAffixes(possible, 2),
+				GearRarity.Rare => GenerateAffixes(possible, Main.rand.Next(3, 5)),
+				_ => _affixes
+			};
 		}
 
 		/// <summary>
@@ -320,7 +340,6 @@ namespace FunnyExperience.Content.Items.Gear
 		/// </summary>
 		public virtual void PostRoll()
 		{
-
 		}
 
 		/// <summary>
@@ -338,12 +357,12 @@ namespace FunnyExperience.Content.Items.Gear
 
 		public override void SaveData(TagCompound tag)
 		{
-			tag["type"] = (int)type;
+			tag["type"] = (int)GearType;
 			tag["rarity"] = (int)Rarity;
 			tag["influence"] = (int)_influence;
-
+      
 			tag["name"] = _name;
-			tag["power"] = Power;
+			tag["power"] = ItemLevel;
 
 			List<TagCompound> affixTags = new();
 			foreach (Affix affix in _affixes)
@@ -358,12 +377,12 @@ namespace FunnyExperience.Content.Items.Gear
 
 		public override void LoadData(TagCompound tag)
 		{
-			type = (GearType)tag.GetInt("type");
+			GearType = (GearType)tag.GetInt("type");
 			Rarity = (GearRarity)tag.GetInt("rarity");
 			_influence = (GearInfluence)tag.GetInt("influence");
 
 			_name = tag.GetString("name");
-			Power = tag.GetInt("power");
+			ItemLevel = tag.GetInt("power");
 
 			IList<TagCompound> affixTags = tag.GetList<TagCompound>("affixes");
 
@@ -379,22 +398,29 @@ namespace FunnyExperience.Content.Items.Gear
 		/// Spawns a random piece of armor at the given position
 		/// </summary>
 		/// <param name="pos">Where to spawn the armor</param>
-		public static void SpawnArmor(Vector2 pos)
+		public static void SpawnItem(Vector2 pos)
 		{
-			int choice = Main.rand.Next(3);
-
+			int choice = Main.rand.Next(6);
+			
 			switch (choice)
 			{
 				case 0:
 					SpawnGear<Helmet>(pos);
 					break;
-
 				case 1:
 					SpawnGear<Chestplate>(pos);
 					break;
-
 				case 2:
 					SpawnGear<Leggings>(pos);
+					break;
+				case 3:
+					SpawnGear<Sword>(pos);
+					break;
+				case 4:
+					SpawnGear<Katana>(pos);
+					break;
+				case 5:
+					SpawnGear<Broadsword>(pos);
 					break;
 			}
 		}
@@ -409,14 +435,14 @@ namespace FunnyExperience.Content.Items.Gear
 			var item = new Item();
 			item.SetDefaults(ModContent.ItemType<T>());
 			var gear = item.ModItem as T;
-			gear.Roll(PickPower());
+			gear.Roll(PickItemLevel());
 			Item.NewItem(null, pos, Vector2.Zero, item);
 		}
 
 		/// <summary>
-		/// Selects an appropriate random power for a piece of gear to drop at based on world state
+		/// Selects an appropriate item level for a piece of gear to drop at based on world state
 		/// </summary>
-		public static int PickPower()
+		private static int PickItemLevel()
 		{
 			if (NPC.downedMoonlord)
 				return Main.rand.Next(150, 201);
@@ -467,7 +493,7 @@ namespace FunnyExperience.Content.Items.Gear
 		{
 			string typeName = type switch
 			{
-				GearType.Sword => "Broadsword",
+				GearType.Sword => "Sword",
 				GearType.Spear => "Spear",
 				GearType.Bow => "Bow",
 				GearType.Gun => "Guns",
@@ -499,6 +525,28 @@ namespace FunnyExperience.Content.Items.Gear
 			};
 
 			return $" {influenceName}{rareName}{typeName}";
+		}
+		
+		public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+		{
+			if (!_affixes.Any()) //We don't want to run if there are no affixes to modify anything
+				return;
+			
+			foreach (Affix affix in _affixes)
+			{
+				switch (affix.GetType().Name)
+				{
+					case "AddedKnockbackAffix":
+						modifiers.Knockback += affix.GetModifierValue(this); // 'this' refers to the current Gear instance
+						break;
+					case "IncreasedKnockbackAffix": // We want to have the added first, before the multiplier
+						modifiers.Knockback *= affix.GetModifierValue(this);
+						break;
+					case "PiercingAffix":
+						modifiers.ArmorPenetration += affix.GetModifierValue(this);
+						break;
+				}
+			}
 		}
 	}
 }

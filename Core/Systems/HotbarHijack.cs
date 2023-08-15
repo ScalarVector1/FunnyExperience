@@ -6,7 +6,7 @@ namespace FunnyExperience.Core.Systems
 	{
 		public override void Load()
 		{
-			Terraria.UI.On_ItemSlot.LeftClick_ItemArray_int_int += StopHotbar;
+			On_ItemSlot.LeftClick_ItemArray_int_int += StopHotbar;
 		}
 
 		private void StopHotbar(On_ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
@@ -46,7 +46,6 @@ namespace FunnyExperience.Core.Systems
 			}
 
 			orig(inv, context, slot);
-			return;
 		}
 	}
 }
